@@ -27,6 +27,8 @@ namespace CommandLine
                 // or help here
                 //Parser.Run("/?");
             }
+
+            Console.ReadKey();
         }
 
         [Command("promt", "To enter commands from console")]
@@ -50,6 +52,20 @@ namespace CommandLine
 
     public class Test
     {
+        [Command("user find {name} {age}", "Command to search for a user by name and age")]
+        [Option(Param = "userName", Name = "name", Help = "User name. Case sensitive.")]
+        [Option(Param = "age", Default = 24, Help = "User age. The maximum value is 90 years.")]
+        static void UserFind(string userName, int age)
+        {
+            TestObject = TestUser.CreateUser(userName, age);
+        }
+
+        [Command("product counts {counts} {prices}")]
+        static void ProductCounts(int[] counts, double[] prices)
+        {
+            TestObject = new object[] { counts, prices };
+        }
+
         [Command("test begin")]
         static void BeginTest()
         {
@@ -68,7 +84,7 @@ namespace CommandLine
                 flag &= CheckUser("u n='Elon Musk' a=47 find", "Elon Musk", 47);
                 flag &= CheckUser("us na=\"Edward\\'s Snowden\"\" 123\" age=35 find", "Edward's Snowden 123", 35);
                 flag &= CheckUser("user find Ali\\\"ce 24", "Ali\"ce", 24);
-                flag &= Check("product counts 10,20,30,40 20.123,40.456,60.789", new object[] { new[] { 10, 20, 30, 40 }, new[] { 20.123, 40.456, 60.789 } });
+                flag &= CheckCounts("product counts 10,20,30,40 20.123,40.456,60.789", new object[] { new[] { 10, 20, 30, 40 }, new[] { 20.123, 40.456, 60.789 } });
 
 
                 //flag &= CheckUser("user find Alice", "Alice", 24); // maybe in future
@@ -92,7 +108,6 @@ namespace CommandLine
             Console.WriteLine("Press any key to exit");
         }
 
-
         static object TestObject = null;
 
         static bool CheckUser(string cmd, string name, int age)
@@ -111,7 +126,7 @@ namespace CommandLine
             return true;
         }
 
-        static bool Check(string cmd, object obj)
+        static bool CheckCounts(string cmd, object obj)
         {
             Program.Parser.Run(cmd);
 
@@ -155,25 +170,7 @@ namespace CommandLine
 
             return true;
         }
-
-
-        [Command("user find {name} {age}", "Command to search for a user by name and age")]
-        [Option(Param = "userName", Name = "name", Help = "User name. Case sensitive.")]
-        [Option(Param = "age", Default = 24, Help = "User age. The maximum value is 90 years.")]
-        static void UserFind(string userName, int age)
-        {
-            TestObject = TestUser.CreateUser(userName, age);
-        }
-
-        [Command("product counts {counts} {prices}")]
-        static void ProductCounts(int[] counts, double[] prices)
-        {
-            TestObject = new object[] { counts, prices };
-        }
-
-
     }
-
 
     public class TestUser
     {
