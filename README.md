@@ -233,13 +233,6 @@ namespace ConsoleApp14
                 Parser.Run("/?");
             }
         }
-
-        [Command("user find {name} {age}", "Command to search for a user by name and age")]
-        [Option(Param = "userName", Name = "name", Help = "User name. Case sensitive.")]
-        [Option(Param = "age", Default = 24, Help = "User age. The maximum value is 90 years.")]
-        static void UserFind(string userName, int age)
-        {
-        }
     }
 }
 ```
@@ -284,18 +277,12 @@ namespace ConsoleApp14
         {
             Work = false;
         }
-
-        [Command("user find {name} {age}", "Command to search for a user by name and age")]
-        [Option(Param = "userName", Name = "name", Help = "User name. Case sensitive.")]
-        [Option(Param = "age", Default = 24, Help = "User age. The maximum value is 90 years.")]
-        static void UserFind(string userName, int age)
-        {
-        }
     }
 }
 ```
 
 # How to enter arrays
+__Note: The default item separator is comma. You can change this in Parser.ArraySeparatorChar__
 ```csharp
 using System;
 using System.Globalization;
@@ -326,5 +313,5 @@ Usage:
 ```
 >product counts 10,20,30,40 20.123,40.456,60.789
 ```
-__Note: The default item separator is comma. You can change this in Parser.ArraySeparatorChar__
+
 
