@@ -314,7 +314,7 @@ Usage:
 >product counts 10,20,30,40 20.123,40.456,60.789
 ```
 
-#How to add several different formats
+# How to add several different formats
 ```csharp
 using System;
 using CommandLine;
