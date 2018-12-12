@@ -55,7 +55,7 @@ namespace ConsoleApp14
 ```
 
 # How to add default value
-__arguments settings are specified using an additional attribute Option__
+__Arguments settings are specified using an additional attribute Option__
 ```csharp
 using System;
 using CommandLine;
@@ -175,8 +175,13 @@ Call examples with default age value. Attention: Such calls can be made only if 
 ```
 >user find name=Alice
 ```
+If all arguments are defaults
 
-Abbreviated сall examples
+```
+>user find
+```
+
+Abbreviated сall examples. When reducing, avoid ambiguous interpretations.
 ```
 >u f Alice 24
 >us f Alice 24
@@ -193,20 +198,133 @@ Using quotes
 ```
 >u n='Elon Musk' a=47 find
 >us na="Edward\'s Snowden" age=35 find
->us na="Any \"good\" name" find
+>u n="Any \"good\" name" f
 ```
 
+Getting help on the command
+```
+>user /?
+>user find /?
+>u /?
+```
 
-Ка получить справку под команде
-Как получить справку по всем командам
+Getting help for all commands
+```
+>/?
+```
 
-Как вывести справку если команда не задана
-Как вывести запрос команды если команда не задана
+# How to display help if the command is not set
+```csharp
+using System;
+using CommandLine;
 
-Как вводить массивы
+namespace ConsoleApp14
+{
+    class Program
+    {
+        public static Parser Parser;
 
+        static void Main(string[] args)
+        {
+            Parser = Parser.Create(args);
 
-# 
+            if (args.Length == 0)
+            {
+                Parser.Run("/?");
+            }
+        }
+
+        [Command("user find {name} {age}", "Command to search for a user by name and age")]
+        [Option(Param = "userName", Name = "name", Help = "User name. Case sensitive.")]
+        [Option(Param = "age", Default = 24, Help = "User age. The maximum value is 90 years.")]
+        static void UserFind(string userName, int age)
+        {
+        }
+    }
+}
+```
+
+# How to make the command promt if the command is not set
         
 ```csharp
+using System;
+using CommandLine;
+
+namespace ConsoleApp14
+{
+    class Program
+    {
+        public static bool Work = true;
+        public static Parser Parser;
+
+        static void Main(string[] args)
+        {
+            Parser = Parser.Create(args);
+
+            if (args.Length == 0)
+            {
+                Parser.Run("promt");
+            }
+        }
+
+        [Command("promt", "To enter commands from console")]
+        static void Promt()
+        {
+            while (Work)
+            {
+                Console.Write(">");
+                var cmd = Console.ReadLine();
+
+                Parser.Run(cmd);
+            }
+        }
+
+        [Command("exit", "To exit from console")]
+        static void Exit()
+        {
+            Work = false;
+        }
+
+        [Command("user find {name} {age}", "Command to search for a user by name and age")]
+        [Option(Param = "userName", Name = "name", Help = "User name. Case sensitive.")]
+        [Option(Param = "age", Default = 24, Help = "User age. The maximum value is 90 years.")]
+        static void UserFind(string userName, int age)
+        {
+        }
+    }
+}
 ```
+
+# How to enter arrays
+```csharp
+using System;
+using System.Globalization;
+using System.Threading;
+using CommandLine;
+
+namespace ConsoleApp14
+{
+    class Program
+    {
+        public static Parser Parser;
+
+        static void Main(string[] args)
+        {
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+
+            Parser.Create(args);
+        }
+
+        [Command("product counts {counts} {prices}")]
+        static void ProductCounts(int[] counts, double[] prices)
+        {
+        }
+    }
+}
+```
+Usage:
+```
+>product counts 10,20,30,40 20.123,40.456,60.789
+```
+__Note: The default item separator is comma. You can change this in Parser.ArraySeparatorChar__
+
