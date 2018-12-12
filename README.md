@@ -204,13 +204,15 @@ Using quotes
 Getting help on the command. __Note: The default option char slash. You can change this in Parser.OptionChar__
 ```
 >user /?
->user find /?
->u /?
+>user find /h
+>u /help
 ```
 
 Getting help for all commands
 ```
 >/?
+>/h
+>/help
 ```
 
 # How to display help if the command is not set
