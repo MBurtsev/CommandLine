@@ -347,6 +347,6 @@ Usage:
 >find user Alice 24
 ```
 
-
+![alt text](https://i.imgur.com/V78idGE.png)
 
 
