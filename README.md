@@ -1,5 +1,5 @@
-# Command Line Parser for .net core and classic .net
-Easy to use command line parser.
+# Command Line Parser
+Easy to use command line parser for console applications based on .net core or classic .net
 
 # Features:
 - A simple description of commands and arguments using attributes
@@ -77,6 +77,7 @@ namespace ConsoleApp14
     }
 }
 ```
+
 # How to set a another name for the argument
 __The specified name in brackets {name} must match the name of the method parameter or of the name given in the Option__
 ```csharp
@@ -101,10 +102,36 @@ namespace ConsoleApp14
 }
 ```
 
+# How to add a description to the command argument
+```csharp
+using System;
+using CommandLine;
 
-Как добавить описание к аргументу команды
+namespace ConsoleApp14
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Parser.Create(args);
+        }
 
-Как запустить команду из кода
+        [Command("user find {name} {age}", "Command to search for a user by name and age")]
+        [Option(Param = "userName", Name = "name", Help = "User name. Case sensitive.")]
+        [Option(Param = "age", Default = 24, Help = "User age. The maximum value is 90 years.")]
+        static void UserFind(string userName, int age)
+        {
+        }
+    }
+}
+```
+
+# How to run a command from code
+```csharp
+
+```
+
+
 
 Как вызвать команду с именнованными аргументами
 Как работают сокращения команд
