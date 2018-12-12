@@ -314,4 +314,39 @@ Usage:
 >product counts 10,20,30,40 20.123,40.456,60.789
 ```
 
+#How to add several different formats
+```csharp
+using System;
+using CommandLine;
+
+namespace ConsoleApp14
+{
+    class Program
+    {
+        public static Parser Parser;
+
+        static void Main(string[] args)
+        {
+            Parser = Parser.Create(args);
+
+            Parser.Run("user find Alice 24");
+        }
+
+        [Command("user find {name} {age}")]
+        [Command("find user {name} {age}")]
+        static void UserFind(string userName, int age)
+        {
+        }
+    }
+}
+```
+
+Usage:
+```
+>user find Alice 24
+>find user Alice 24
+```
+
+
+
 
