@@ -201,7 +201,7 @@ Using quotes
 >u n="Any \"good\" name" f
 ```
 
-Getting help on the command
+Getting help on the command. __Note: The default option char slash. You can change this in Parser.OptionChar__
 ```
 >user /?
 >user find /?
