@@ -128,15 +128,73 @@ namespace ConsoleApp14
 
 # How to run a command from code
 ```csharp
+using System;
+using CommandLine;
+
+namespace ConsoleApp14
+{
+    class Program
+    {
+        public static Parser Parser;
+
+        static void Main(string[] args)
+        {
+            Parser = Parser.Create(args);
+
+            Parser.Run("user find Alice 24");
+        }
+
+        [Command("user find {name} {age}", "Command to search for a user by name and age")]
+        [Option(Param = "userName", Name = "name", Help = "User name. Case sensitive.")]
+        [Option(Param = "age", Default = 24, Help = "User age. The maximum value is 90 years.")]
+        static void UserFind(string userName, int age)
+        {
+        }
+    }
+}
+```
+
+# How commands are called
+The order of the сommand signatures and the order of the arguments must be preserved
+```
+>user find Alice 24
+```
+
+However, command signatures can be set anywhere.
+```
+>user Alice find 24
+>user Alice 24 find
+```
+
+Example of named arguments
+```
+>user find name=Alice age=24
+```
+
+Call examples with default age value. Attention: Such calls can be made only if the arguments are specified by name!
+```
+>user find name=Alice
+```
+
+Abbreviated сall examples
+```
+>u f Alice 24
+>us f Alice 24
+>use f Alice 24
+>us fin Alice 24
+
+>u f n=Alice a=24
+>us f na=Alice a=24
+>use fin nam=Alice ag=24
 
 ```
 
-
-
-Как вызвать команду с именнованными аргументами
-Как работают сокращения команд
-Как работают сокращения имен аргуменов
-
+Using quotes
+```
+>u n='Elon Musk' a=47 find
+>us na="Edward\'s Snowden" age=35 find
+>us na="Any \"good\" name" find
+```
 
 
 Ка получить справку под команде
