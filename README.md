@@ -1,5 +1,4 @@
-# Command Line Parser for .net core and classic .net console applications
-
+# Command Line Parser for .net core and classic .net
 Easy to use command line parser.
 
 # Features:
@@ -26,21 +25,92 @@ Easy to use command line parser.
         [Command("create user {name} {age}")]
         static void CteateUser(string name, int age)
         {
-            
         }
 ```
+- Run it
+```
+        create user Alice 24
+```
 
-Как добавить описание к команде
+# How to add a description to the command
+```csharp
+using System;
+using CommandLine;
 
-Как добавить значение по умолчанию
-Как добавить другое имя аргументу
+namespace ConsoleApp14
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Parser.Create(args);
+        }
+
+        [Command("user find {name} {age}", "Command to search for a user by name and age")]
+        static void UserFind(string name, int age)
+        {
+        }
+    }
+}
+```
+
+# How to add default value
+__arguments settings are specified using an additional attribute Option__
+```csharp
+using System;
+using CommandLine;
+
+namespace ConsoleApp14
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Parser.Create(args);
+        }
+
+        [Command("user find {name} {age}", "Command to search for a user by name and age")]
+        [Option(Param = "age", Default = 24)]
+        static void UserFind(string name, int age)
+        {
+        }
+    }
+}
+```
+# How to set a another name for the argument
+__The specified name in brackets {name} must match the name of the method parameter or of the name given in the Option__
+```csharp
+using System;
+using CommandLine;
+
+namespace ConsoleApp14
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Parser.Create(args);
+        }
+
+        [Command("user find {name} {age}", "Command to search for a user by name and age")]
+        [Option(Param = "userName", Name = "name")]
+        static void UserFind(string userName, int age)
+        {
+        }
+    }
+}
+```
+
+
 Как добавить описание к аргументу команды
+
+Как запустить команду из кода
 
 Как вызвать команду с именнованными аргументами
 Как работают сокращения команд
 Как работают сокращения имен аргуменов
 
-Как запустить команду из кода
+
 
 Ка получить справку под команде
 Как получить справку по всем командам
@@ -51,7 +121,7 @@ Easy to use command line parser.
 Как вводить массивы
 
 
-# How to 
+# 
         
 ```csharp
 ```
