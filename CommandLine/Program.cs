@@ -22,13 +22,13 @@ namespace CommandLine
             if (args.Length == 0)
             {
                 // promt commands
-                Parser.Run("promt");
+                //Parser.Run("promt");
 
                 // or help here
-                //Parser.Run("/?");
+                Parser.Run("/?");
             }
 
-            Console.ReadKey();
+            //Console.ReadKey();
         }
 
         [Command("promt", "To enter commands from console")]
@@ -77,6 +77,8 @@ namespace CommandLine
             try
             {
                 flag &= CheckUser("user find Alice 24", "Alice", 24);
+                flag &= CheckUser("user Alice find 24", "Alice", 24);
+                flag &= CheckUser("user Alice 24 find", "Alice", 24);
                 flag &= CheckUser("    user     find   Alice    24   ", "Alice", 24);
                 flag &= CheckUser("user find name=Bob", "Bob", 24);
                 flag &= CheckUser("u f na=Martin a=30", "Martin", 30);
