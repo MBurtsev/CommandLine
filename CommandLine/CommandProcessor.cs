@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Maksim Burtsev https://github.com/nim
+// Licensed under the MIT license.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -553,7 +556,7 @@ namespace CommandLine
                 {
                     var cmd = found[i];
 
-                    Console.Write(i + ": ");
+                    Console.Write((i + 1) + ": ");
 
                     for (var j = 0; j < cmd.Parts.Count; ++j)
                     {
