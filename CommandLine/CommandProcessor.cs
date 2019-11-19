@@ -1,7 +1,4 @@
-﻿// Maksim Burtsev https://github.com/nim
-// Licensed under the MIT license.
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -68,8 +65,7 @@ namespace CommandLine
         {
             AddRange(list);
         }
-
-
+        
         // Parse multiple commands
         public void Run(IEnumerable<string> list)
         {
@@ -82,6 +78,16 @@ namespace CommandLine
         // Parse string command and run it if containce
         public void Run(string text)
         {
+            // multy check
+            var multi = text.Split(new []{'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
+
+            if (multi.Length > 1)
+            {
+                Run(multi);
+
+                return;
+            }
+
             // Parse input string
             var pos = 0;
             var mode = 0;
@@ -405,7 +411,7 @@ namespace CommandLine
                         // check vals
                         var val = Convert(arg.val, opt.Param.Type);
 
-                        if (val == null || val.ToString().Length != arg.val.Length)
+                        if (val == null)
                         {
                             found.RemoveAt(i--);
 
@@ -603,8 +609,7 @@ namespace CommandLine
             }
 
         }
-
-
+        
         // Add command
         public void Add(Command cmd)
         {
@@ -639,12 +644,12 @@ namespace CommandLine
 
             if (type == typeof(bool))
             {
-                if (value == "1" || "true".IndexOf(value.ToString()) == 0)
+                if (value == "1" || "true".IndexOf(value.ToString(), StringComparison.Ordinal) == 0)
                 {
                     return true;
                 }
 
-                if (value == "0" || "false".IndexOf(value.ToString()) == 0)
+                if (value == "0" || "false".IndexOf(value.ToString(), StringComparison.Ordinal) == 0)
                 {
                     return false;
                 }
@@ -696,7 +701,7 @@ namespace CommandLine
             {
                 foreach (var opt in cmd.Options)
                 {
-                    var h = "";
+                    //var h = "";
 
                     Console.WriteLine("".PadLeft(4) + opt.Name.PadRight(10) + opt.Param.Type.Name.PadRight(10) + (opt.Default != null ? $"not required. Default value: {opt.Default}" : "required") + "  " );
 
@@ -1031,16 +1036,3 @@ namespace CommandLine
         public string Help { get; set; }
     }
 }
-
-// Команды:
-// - чувствительны к регистру
-
-
-// Если используются именнованные аргументы:
-// - Все аргументы должны быть указаны по имени
-// - Порядок указания аргументов не важен
-// - Аргументы со значениями по умолчанию могут не указываться
-
-// Если используются не именнованные аргументы:
-// - Должен сохранятся порядок следования аргументов, указанный в формате команды. 
-// - Не могут использоваться значения по умолчанию. Кроме случаев, когда все аргументы не указанны при этом имеют значения по умолчанию
