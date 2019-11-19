@@ -9,7 +9,7 @@ Easy to use command line parser for console applications based on .net core or c
 - Named Arguments
 - Abbreviations for command and argument names
 - Default values
-- Help support
+- Help
 
 # Getting Started
 - Include file CommandProcessor.cs to your project
